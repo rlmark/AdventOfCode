@@ -1,24 +1,31 @@
 
 trait Operation {
   val opCode: String
-  def op: (VirtualMachine, Instruction) => VirtualMachine
+  def execute(vm: VirtualMachine, register: Option[Register], offset: Option[Offset]): VirtualMachine
 }
 
-class IncrementR extends Operation {
+object IncrementR extends Operation {
   val opCode = "inc"
-  def op(vm: VirtualMachine, instruction: Instruction): VirtualMachine = {
-    val currentRegister: Register = instruction.register.get
+  def execute(vm: VirtualMachine, register: Option[Register], offset: Option[Offset]): VirtualMachine = {
+    val currentRegister: Register = register.get
+    val currentRegisterValue = vm.memory.contents(currentRegister).value
+    val newInstructionIndex = vm.currentInstructionIndex + 1
     val newContents: Map[Register, Value] = vm.memory.contents.updated(
-      currentRegister, vm.memory.contents + 1 )
-    vm.copy(memory = vm.memory.copy(
+      currentRegister, Value(currentRegisterValue + 1))
+    vm.copy(currentInstructionIndex = newInstructionIndex, memory = vm.memory.copy(
       contents = newContents))
   }
 }
 
-class JumpOffset extends Operation {
+object JumpOffset extends Operation {
   val opCode = "jmp"
-  def op = ???
+  def execute(vm: VirtualMachine, register: Option[Register], offset: Option[Offset]) = {
+    val offsetValue = offset.get.value
+    val newInstructionIndex = vm.currentInstructionIndex + offsetValue 
+    vm.copy(currentInstructionIndex = newInstructionIndex)
+  }
 }
+
 //class HalfR(currentVal: Int) extends Operation {
 //  val
 //  def op(currentVal: Int): Int = {
