@@ -8,13 +8,17 @@ object Main {
     val instructions = Vector(Instruction(IncrementR, Some(registerA), None),
                               Instruction(IncrementR, Some(registerB), None),
                               Instruction(IncrementR, Some(registerA), None),
+                              Instruction(HalfR, Some(registerA), None),
+                              Instruction(TripleR, Some(registerA), None),
+                              Instruction(JumpIfOne, Some(registerB), Some(Offset(2))),
                               Instruction(JumpOffset, None, Some(Offset(-2))))
+                              Instruction(IncrementR, Some(registerB), None)
     val program = Program(instructions = instructions)
 
 
     val vm = VirtualMachine(0, memory)
 
-    val result = vm.runToCompletion(program, 10)
+    val result = vm.runToCompletion(program, 20)
     println(program)
     printState(vm)
     printState(result)
