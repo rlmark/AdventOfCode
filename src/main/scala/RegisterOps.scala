@@ -42,13 +42,13 @@ object IncrementR extends Operation {
 }
 
 object TripleR extends Operation {
-  val opCode = "tpl r"
+  val opCode = "tpl"
   def execute(vm: VirtualMachine, register: Option[Register], offset: Option[Offset]): VirtualMachine =
     incrementAppropriately(vm, register.get, multiply(3))
 }
 
 object HalfR extends Operation {
-  val opCode = "hlf r"
+  val opCode = "hlf"
   def execute(vm: VirtualMachine, register: Option[Register], offset: Option[Offset]): VirtualMachine = {
     incrementAppropriately(vm, register.get, divide(2))
   }
@@ -64,7 +64,7 @@ object JumpOffset extends Operation {
 }
 
 object JumpIfEven extends Operation {
-  val opCode = "jie r"
+  val opCode = "jie"
   def execute(vm: VirtualMachine, register: Option[Register], offset: Option[Offset]): VirtualMachine = {
     def isEven(registerValue: Int) = registerValue % 2 == 0
     getJumpBasedOnRegister(vm, register.get, offset, isEven)
@@ -72,7 +72,7 @@ object JumpIfEven extends Operation {
 }
 
 object JumpIfOne extends Operation {
-  val opCode = "jio r"
+  val opCode = "jio"
   def execute(vm: VirtualMachine, register: Option[Register], offset: Option[Offset]): VirtualMachine = {
     def isOne(registerValue: Int) = registerValue == 1
     getJumpBasedOnRegister(vm, register.get, offset, isOne)
